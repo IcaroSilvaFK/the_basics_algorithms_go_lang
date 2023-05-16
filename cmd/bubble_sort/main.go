@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 	bubbleSort()
@@ -8,18 +11,25 @@ func main() {
 
 func bubbleSort() {
 
-	arr := []int32{213, 321, 23, 3123, 2323, 3213, 213123, 213, 213, 12, 3, 312, 313, 213, 31}
+	init := time.Now()
 
-	for i := 0; i < len(arr)-1; i++ {
-		for j := 0; j < len(arr)-1; j++ {
+	arr := []int32{9, 8, 7, 6, 5, 4, 3, 2, 1}
+	count := 0
+
+	for i := 0; i < len(arr)-1; i++ { //O(1)
+		for j := 0; j < len(arr)-1; j++ { //O(1)
 			if arr[j] > arr[j+1] {
 				swap := arr[j]
 				arr[j] = arr[j+1]
 				arr[j+1] = swap
 			}
+			count++
 		}
+		count++
 	}
 
+	fmt.Println(time.Since(init))
+	fmt.Println(count)
 	fmt.Println(arr)
-
+	// O(n^2)
 }
