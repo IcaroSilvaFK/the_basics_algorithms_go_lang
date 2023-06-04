@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -88,7 +89,13 @@ func main() {
 	walkOnTree(first)
 	findNameOnTree(first, "right")
 	finded := findNameOnTreeRecursive(first, "right")
+	res := searchSmallerIdInTree(first)
 
+	fmt.Println("Res", res)
+
+	sum := sumTree(first)
+
+	fmt.Println("Sum tree", sum)
 	fmt.Println("Finded:", finded)
 
 	result := walkOnTreeRecursive(first)
@@ -100,13 +107,70 @@ func main() {
 	breadthFirstValues(first)
 }
 
-func walkOnTree(t *Tree) {
+func searchSmallerIdInTree(t *Tree) int {
 
 	stack := []*Tree{t}
+	smallest := math.MaxInt
 
 	for len(stack) > 0 {
 		node := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
+
+		if node.Id < smallest {
+			smallest = node.Id
+		}
+
+		if node.left != nil {
+			stack = append(stack, node.left)
+		}
+		if node.right != nil {
+			stack = append(stack, node.right)
+		}
+	}
+
+	return smallest
+}
+
+//TODO adding method
+// func searchSmallerIdInTreeRecursive(t *Tree) int {
+
+// 	if t == nil {
+// 		return 0
+// 	}
+
+// 	var leftMin int
+// 	var rightMin int
+
+// 	if t.left != nil {
+// 		leftMin = searchSmallerIdInTreeRecursive(t.left)
+// 	}
+// 	if t.right != nil {
+// 		rightMin = searchSmallerIdInTreeRecursive(t.left)
+// 	}
+
+// 	if t.Id < leftMin && t.Id < rightMin {
+// 		return t.Id
+// 	}
+
+// 	if leftMin < t.Id && leftMin < rightMin {
+// 		return leftMin
+// 	}
+// 	if rightMin < t.Id && rightMin < leftMin {
+// 		return rightMin
+// 	}
+
+// 	return 0
+// }
+
+func walkOnTree(t *Tree) {
+
+	stack := []*Tree{t}
+	sum := 0
+
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		sum += node.Id
 
 		if node.left != nil {
 			stack = append(stack, node.left)
@@ -116,6 +180,7 @@ func walkOnTree(t *Tree) {
 		}
 		fmt.Printf("Node name:%s . Node id: %d\n", node.Name, node.Id)
 	}
+	fmt.Println("Sum:", sum)
 }
 
 func walkOnTreeRecursive(t *Tree) []*Tree {
@@ -135,6 +200,26 @@ func walkOnTreeRecursive(t *Tree) []*Tree {
 	stack = append(stack, right...)
 
 	return stack
+}
+
+func sumTree(t *Tree) int {
+
+	sum := 0
+
+	if t == nil {
+		return 0
+	}
+
+	sum += t.Id
+
+	if t.left != nil {
+		sum += sumTree(t.left)
+	}
+	if t.right != nil {
+		sum += sumTree(t.right)
+	}
+
+	return sum
 }
 
 func findNameOnTree(t *Tree, name string) {
