@@ -31,6 +31,8 @@ func main() {
 
 	walkOnThree(third)
 
+	findInLinkedList(third, "second")
+
 }
 
 func walkOnThree(t *Tree) {
@@ -41,5 +43,18 @@ func walkOnThree(t *Tree) {
 		fmt.Println("Last child of the tree")
 		fmt.Println(*t)
 		fmt.Println("End of the tree")
+	}
+}
+
+func findInLinkedList(t *Tree, name string) {
+
+	if t.Name == name {
+		fmt.Println(*t)
+		fmt.Println("Found")
+		return
+	}
+
+	if t.left != nil {
+		findInLinkedList(t.left, name)
 	}
 }
