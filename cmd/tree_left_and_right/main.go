@@ -65,15 +65,20 @@ func main() {
 
 func walkOnThree(t *Tree) {
 
-	if t.left != nil {
-		fmt.Println("Left")
-		walkOnThree(t.left)
+	for {
+		if t.left == nil {
+			break
+		}
 		fmt.Println(*t)
 	}
-	if t.right != nil {
-		fmt.Println("Right")
-		walkOnThree(t.right)
+
+	if t.left != nil {
 		fmt.Println(*t)
+		walkOnThree(t.left)
+	}
+	if t.right != nil {
+		fmt.Println(*t)
+		walkOnThree(t.right)
 	}
 
 }
